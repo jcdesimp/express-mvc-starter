@@ -10,12 +10,14 @@
     "exec": "exec"
   },
   "dependencies": {
+    "bcrypt": "^0.8.7",
     "body-parser": "~1.15.1",
     "bookshelf": "^0.10.0",
     "cookie-parser": "~1.4.3",
     "debug": "~2.2.0",
     "ejs": "~2.4.1",
     "express": "~4.13.4",
+    "jsonwebtoken": "^7.1.9",
     "knex": "^0.11.10",
     "morgan": "~1.7.0",
     "serve-favicon": "~2.3.0"

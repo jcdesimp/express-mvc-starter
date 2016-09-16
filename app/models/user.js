@@ -4,12 +4,15 @@ const bookshelf = require('../lib/bookshelf');
 
 require('./car');
 
-let Person = bookshelf.model("Person", {
-	tableName: "people",
+let User = bookshelf.model("User", {
+	tableName: "users",
 	cars: function() {
 		return this.hasMany("Car", "owner");
+	},
+	password: function() {
+		return this.belongsTo("Password")
 	}
 });
 
-module.exports = Person;
+module.exports = User;
 

@@ -4,7 +4,7 @@ const express = require('express');
 let router = express.Router();
 
 
-router.use('/person', require('./person'));
+router.use('/user', require('./user'));
 router.use('/car', require('./car'));
 
 

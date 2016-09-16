@@ -15,7 +15,7 @@ const Car = require("../models/car");
 function getCars(req, res, next) {
 	return Car.fetchAll()
 		.then(collection  =>  res.json(collection.serialize()))
-		.catch(e => console.log(e))
+		.catch(e => console.error(e))
 }
 
 /**
@@ -60,7 +60,7 @@ function getCarById(req, res, next) {
 					});
 			}
 			// Unknown error
-			console.log(err);
+			console.error(err);
 			return res.status(500)
 				.json({
 					error: "UnknownError"
