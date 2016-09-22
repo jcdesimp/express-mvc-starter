@@ -34,7 +34,7 @@ function registerNewUser(req, res, next) {
 			})
 	}
 
-	user_data.username 		= req.body.username;
+	user_data.username 		= req.body.username.toLowerCase();
 	user_data.first_name 	= req.body.first_name;
 	user_data.last_name 	= req.body.first_name;
 
@@ -145,6 +145,12 @@ function getUserById(req, res, next) {
 		});
 }
 
+/**
+ * Delete a user by its ID
+ * @param  {Express.Request}   req  - the request object
+ * @param  {Express.Reponse}   res  - the response object
+ * @param  {Function} next - pass to next handler
+ */
 function deleteUserById(req, res, next) {
 	return User.where('id', req.params.id).fetch({
 		require: true,
@@ -155,19 +161,19 @@ function deleteUserById(req, res, next) {
 		return res.status(200).send();
 	})
 	.catch(err => {
-			if(err.message === "EmptyResponse") {
-				return res.status(404)
-					.json({
-						error: "NotFound"
-					});
-			}
-			// Unknown error
-			console.error(err);
-			return res.status(500)
+		if(err.message === "EmptyResponse") {
+			return res.status(404)
 				.json({
-					error: "UnknownError"
+					error: "NotFound"
 				});
+		}
+		// Unknown error
+		console.error(err);
+		return res.status(500)
+		.json({
+			error: "UnknownError"
 		});
+	});
 }
 
 

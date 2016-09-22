@@ -10,7 +10,7 @@ let User = bookshelf.model("User", {
 		return this.hasMany("Car", "owner");
 	},
 	password: function() {
-		return this.belongsTo("Password")
+		return this.hasOne("Password");
 	}
 });
 

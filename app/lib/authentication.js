@@ -1,9 +1,17 @@
 "use strict"
 
-const bcrypt = require('bcrypt');
+const bcrypt 	= require('bcrypt');
+const fs 		= require('fs');
+const jwt 		= require('jsonwebtoken');
+const config 	= require('../../config');
 
 
-const NUM_SALT_ROUNDS = 10;
+const NUM_SALT_ROUNDS 			= 10;
+const JWT_PRIVATE_CERT_FILE 	= "./resources/privkey.pem";
+const JWT_PUBLIC_CERT_FILE 		= "./resources/pubkey.pem";
+
+let privateCert = fs.readFileSync(JWT_PRIVATE_CERT_FILE);
+let publicCert 	= fs.readFileSync(JWT_PUBLIC_CERT_FILE);
 
 /**
  * Generate a salt and hash for password
@@ -39,9 +47,20 @@ function checkPassword(given, hash, callback) {
 }
 
 
+function signToken(tokenData, callback) {
+	jwt.sign(tokenData, privateCert, config.jwt, callback);
+}
+
+
+function verifyToken(token, callback) {
+	jwt.verify(token, publicCert, callback);
+}
+
 
 module.exports = {
 	hashPassword,
-	checkPassword
+	checkPassword,
+	signToken,
+	verifyToken
 }
 

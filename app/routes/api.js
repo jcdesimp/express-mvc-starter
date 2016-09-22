@@ -3,10 +3,12 @@
 const express = require('express');
 let router = express.Router();
 
+const authenticationController = require('../controllers/authentication');
 
 router.use('/user', require('./user'));
 router.use('/car', require('./car'));
 
+router.post('/login', authenticationController.login);
 
 // Generate 404s
 router.use((req, res, next) => {
