@@ -1,17 +1,30 @@
 "use strict"
 
 const userController = require('../controllers/user');
+const authenticationMiddleware = require('../middleware/authentication');
 
 const express = require('express');
 let router = express.Router();
 
 // GET all users
-router.get('/', userController.getUsers);
+router.get(
+	'/',			// route
+	authenticationMiddleware.validateAuthentication,	// isAuthenticated middleware
+	userController.getUsers		// the controller
+);
 // GET a specific user
-router.get('/:id', userController.getUserById);
+router.get(
+	'/:id',
+	authenticationMiddleware.validateAuthentication,	// isAuthenticated middleware
+	userController.getUserById
+	);
 // CREATE a new user
 router.post('/', userController.registerNewUser);
 // DELETE a user
-router.delete('/:id', userController.deleteUserById);
+router.delete(
+	'/:id',
+	authenticationMiddleware.validateAuthentication,	// isAuthenticated middleware
+	userController.deleteUserById
+);
 
 module.exports = router;

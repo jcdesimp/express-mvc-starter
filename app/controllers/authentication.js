@@ -32,7 +32,7 @@ function login(req, res, next) {
 		}
 		
 		let tokenData = {
-			username: userData.username,
+			username: userData.attributes.username,
 			// todo add other token data
 		}
 

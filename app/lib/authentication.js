@@ -46,14 +46,22 @@ function checkPassword(given, hash, callback) {
 	});
 }
 
-
+/**
+ * Sign a JWT
+ * @param  {Object}   tokenData - the data to use in the token data
+ * @param  {Function} callback  - the callback
+ */
 function signToken(tokenData, callback) {
-	jwt.sign(tokenData, privateCert, config.jwt, callback);
+	return jwt.sign(tokenData, privateCert, config.jwt, callback);
 }
 
-
+/**
+ * Verify a JWT
+ * @param  {Sring}   	token    - the token to verify
+ * @param  {Function} 	callback - the callback
+ */
 function verifyToken(token, callback) {
-	jwt.verify(token, publicCert, callback);
+	return jwt.verify(token, publicCert, callback);
 }
 
 
