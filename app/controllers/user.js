@@ -5,8 +5,12 @@
 
 const User 		= require("../models/user");
 const Password 	= require("../models/password");
+const Email 	= require("../models/email");
 
-const authentication = require('../lib/authentication');
+const util 		= require('util');
+
+const authentication 	= require('../lib/authentication');
+const bookshelf 		= require('../lib/bookshelf');
 
 /**
  * Controller to create a new user
@@ -23,7 +27,7 @@ function registerNewUser(req, res, next) {
 			.json({
 				error: "MissingField",
 				message: "username field is missing"
-			})
+			});
 	}
 
 	if(!req.body.hasOwnProperty("password")) {
@@ -31,68 +35,92 @@ function registerNewUser(req, res, next) {
 			.json({
 				error: "MissingField",
 				message: "password field is missing"
-			})
+			});
+	}
+
+	if(!req.body.hasOwnProperty("email")) {
+		return res.status(400)
+			.json({
+				error: "MissingField",
+				message: "email field is missing"
+			});
 	}
 
 	user_data.username 		= req.body.username.toLowerCase();
 	user_data.first_name 	= req.body.first_name;
 	user_data.last_name 	= req.body.first_name;
 
-	// check that user exists
-	let userExistsPromise = User.where('username', user_data.username).fetch()
-
-	// promise for creating the user
-	let createUserPromise = userExistsPromise.then( existingUser => {
-			if(existingUser) {
+	bookshelf.transaction(t => {
+		// check user exists
+		let userExistsPromise = User.where('username', user_data.username)
+		.count('id', {transacting: t})
+		.tap(count => {
+			if(count != 0) {
 				throw {
 					error: "UsernameExists",
 					message: "A user with that username already exists."
 				}
 			}
-			return User.forge(user_data).save()
-		}
-	);
-
-	// promise for hashing the password
-	let passwordHashPromise = new Promise((resolve, reject) => {
-		authentication.hashPassword(req.body.password, (err, hash) => {
-			if(err) {
-				return reject(err);
+			return
+		});
+		// check email exists
+		let emailExistsPromise = Email.where('address', req.body.email)
+		.count('id', {transacting: t})
+		.tap(count => {
+			if(count != 0) {
+				throw {
+					error: "EmailExists",
+					message: "That email is already taken."
+				}
 			}
-			return resolve(hash);
+			return
 		});
-	});
-
-	// password for storing the password
-	let createPasswordPromise = Promise.all([createUserPromise, passwordHashPromise])
-	.then(result => {
-		return Password.forge({
-			user_id: result[0].id,
-			password_hash: result[1]
-		}).save();
-	});
-
-	return Promise.all([createUserPromise, createPasswordPromise])
-		.then(vals => {
-			return res.json({
-				username: vals[0].attributes.username
-			});
-				
-			
-		})
-	    .catch(err => {
-	    	if(err.error === "UsernameExists") {
-    			return res.status(400).json(err);
-	    	}
-			// Unknown error
-			console.error(err);
-			return res.status(500)
-				.json({
-					error: "UnknownError"
+		
+		return Promise.all([userExistsPromise, emailExistsPromise])
+		.then(() => {
+			return User.forge(user_data)
+			.save(null, {transacting: t})
+			.tap(model => {
+				return new Promise((resolve, reject) => {
+					authentication.hashPassword(req.body.password, (err, hash) => {
+						if(err) {
+							return reject(err);
+						}
+						return resolve(hash);
+					});
+				}).then(hash => {
+					return Password.forge({
+						password_hash: hash
+					}).save({user_id: model.id}, {transacting: t});
+				}).then(passModel => {
+					return Email.forge({
+						address: req.body.email,
+						verified: false
+					}).save({user_id: model.id}, {transacting: t});
 				});
+			});
 		});
-		
-		
+	}).then(user => {
+		return res.json({
+			id: user.id,
+			username: user.username
+		});
+	}).catch(err => {
+		// username exists
+    	if(err.error === "UsernameExists") {
+			return res.status(400).json(err);
+    	}
+		// email exists
+    	if(err.error === "EmailExists") {
+			return res.status(400).json(err);
+    	}
+		// Unknown error
+		console.error(err);
+		return res.status(500)
+			.json({
+				error: "UnknownError"
+			});
+	});
 }
 
 /**
@@ -176,6 +204,10 @@ function deleteUserById(req, res, next) {
 	});
 }
 
+
+function getUserRoles(req, res, next) {
+	// todo
+}
 
 
 module.exports = {

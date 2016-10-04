@@ -6,7 +6,7 @@ const bcrypt 		= require('bcrypt');
 require('./user');
 
 let Car = bookshelf.model("Password", {
-	tableName: "passwords"
+	tableName: "Password"
 });
 
 module.exports = Car;

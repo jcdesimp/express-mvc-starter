@@ -3,14 +3,18 @@
 const bookshelf = require('../lib/bookshelf');
 
 require('./car');
+require('./email');
 
 let User = bookshelf.model("User", {
-	tableName: "users",
+	tableName: "User",
 	cars: function() {
 		return this.hasMany("Car", "owner");
 	},
 	password: function() {
 		return this.hasOne("Password");
+	},
+	email: function() {
+		return this.hasOne('Email');
 	}
 });
 

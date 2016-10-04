@@ -18,6 +18,12 @@ router.get(
 	authenticationMiddleware.validateAuthentication,	// isAuthenticated middleware
 	userController.getUserById
 	);
+// GET a user's roles
+router.get(
+	'/:id/roles',
+	authenticationMiddleware.validateAuthentication,	// isAuthenticated middleware
+	userController.getUserById
+	);
 // CREATE a new user
 router.post('/', userController.registerNewUser);
 // DELETE a user
