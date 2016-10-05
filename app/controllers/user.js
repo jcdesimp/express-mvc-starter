@@ -7,8 +7,6 @@ const User 		= require("../models/user");
 const Password 	= require("../models/password");
 const Email 	= require("../models/email");
 
-const util 		= require('util');
-
 const authentication 	= require('../lib/authentication');
 const bookshelf 		= require('../lib/bookshelf');
 

@@ -5,7 +5,7 @@ const bookshelf = require('../lib/bookshelf');
 require('./user');
 
 let Car = bookshelf.model("Car", {
-	tableName: "Car",
+	tableName: "car",
 	owner: function() {
 		return this.belongsTo("User", "owner");
 	}

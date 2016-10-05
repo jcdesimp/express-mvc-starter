@@ -1,13 +1,10 @@
 "use strict"
 
 const bookshelf 	= require('../lib/bookshelf');
-const bcrypt 		= require('bcrypt');
 
-require('./user');
-
-let Car = bookshelf.model("Password", {
-	tableName: "Password"
+let Password = bookshelf.model("Password", {
+	tableName: "password"
 });
 
-module.exports = Car;
+module.exports = Password;
 

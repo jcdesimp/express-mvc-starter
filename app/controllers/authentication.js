@@ -3,16 +3,16 @@
 const user = require('../models/user');
 const authentication = require('../lib/authentication');
 
+const util 		= require('util');
+
 function login(req, res, next) {
 	let userDataPromise = user.where('username', req.body.username.toLowerCase()).fetch({
 		require: true,
-		withRelated: "password"
+		withRelated: ["password"]
 	});
 
 	let checkPasswordPromise = userDataPromise.then(user => {
 		return new Promise((accept, reject) => {
-			// console.log(req.body.password);
-			// res.json(user);?
 			authentication.checkPassword(req.body.password, user.related('password').attributes.password_hash, (err, success) => {
 				if(err) {
 					return reject(err);
