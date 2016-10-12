@@ -202,15 +202,41 @@ function deleteUserById(req, res, next) {
 	});
 }
 
-
-function getUserRoles(req, res, next) {
-	// todo
+/**
+ * Assign/remove roles on a user
+ * @param  {Express.Request}   	req  - the request object
+ * @param  {Express.Reponse}   	res  - the response object
+ * @param  {Function} 			next - pass to next handler
+ */
+function setRoles(req, res, next) {
+	return User.forge({id: req.params.id})
+	.fetch({
+		withRelated: ["roles"]
+	})
+	.then(user => {
+		return bookshelf.transaction(t => {
+			let promises = [];
+			req.body.add ? promises.push(user.roles().attach(req.body.add, {transacting: t})) : null;
+			req.body.remove ? promises.push(user.roles().detach(req.body.remove, {transacting: t})) : null;
+			return Promise.all(promises);
+		});
+	}).then(result => {
+		return res.status(200).send(result);
+	}).catch(err => {
+		console.error(err);
+		return res.status(500)
+		.json({
+			error: "UnknownError"
+		});
+	});
 }
+
 
 
 module.exports = {
 	getUsers,
 	registerNewUser,
 	getUserById,
-	deleteUserById
+	deleteUserById,
+	setRoles
 }

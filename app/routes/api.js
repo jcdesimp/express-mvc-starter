@@ -7,6 +7,7 @@ const authenticationController = require('../controllers/authentication');
 
 router.use('/user', require('./user'));
 router.use('/car', require('./car'));
+router.use('/role', require('./role'));
 
 router.post('/login', authenticationController.login);
 

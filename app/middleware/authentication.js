@@ -29,14 +29,14 @@ function validateAuthentication(req, res, next) {
 			if(err.name === 'TokenExpiredError') {
 				return res.status(401).json({
 					error: "TokenExpired",
-					messge: "jwt expired"
+					message: "jwt expired"
 				});
 			}
 
 			if(err.name === 'JsonWebTokenError') {
 				return res.status(401).json({
 					error: "NoToken",
-					messge: "jwt must be provided"
+					message: "jwt must be provided"
 				});
 			}
 			console.log(err);
@@ -52,6 +52,14 @@ function validateAuthentication(req, res, next) {
 
 	});
 }
+
+/**
+ * Middleware that attaches a user object to the request
+ */
+function attachUser(req, res, next) {
+	// todo implement
+}
+
 
 module.exports = {
 	validateAuthentication

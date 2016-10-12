@@ -5,6 +5,12 @@ const authentication = require('../lib/authentication');
 
 const util 		= require('util');
 
+/**
+ * Verify password and generate a JWT for a user
+ * @param  {Express.Request}   req  - the request
+ * @param  {Express.Resonse}   res  - the response
+ * @param  {Function} next - pass to next route handler
+ */
 function login(req, res, next) {
 	let userDataPromise = user.where('username', req.body.username.toLowerCase()).fetch({
 		require: true,

@@ -17,13 +17,7 @@ router.get(
 	'/:id',
 	authenticationMiddleware.validateAuthentication,	// isAuthenticated middleware
 	userController.getUserById
-	);
-// GET a user's roles
-router.get(
-	'/:id/roles',
-	authenticationMiddleware.validateAuthentication,	// isAuthenticated middleware
-	userController.getUserById
-	);
+);
 // CREATE a new user
 router.post('/', userController.registerNewUser);
 // DELETE a user
@@ -32,5 +26,11 @@ router.delete(
 	authenticationMiddleware.validateAuthentication,	// isAuthenticated middleware
 	userController.deleteUserById
 );
+// 
+router.patch(
+	'/:id/roles',
+	authenticationMiddleware.validateAuthentication,
+	userController.setRoles
+)
 
 module.exports = router;
