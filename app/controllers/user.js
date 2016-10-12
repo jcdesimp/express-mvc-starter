@@ -209,8 +209,8 @@ function deleteUserById(req, res, next) {
  * @param  {Function} 			next - pass to next handler
  */
 function setRoles(req, res, next) {
-	return User.forge({id: req.params.id})
-	.fetch({
+	let target_user = User.forge({id: req.params.id})
+	target_user.fetch({
 		withRelated: ["roles"]
 	})
 	.then(user => {
@@ -221,7 +221,12 @@ function setRoles(req, res, next) {
 			return Promise.all(promises);
 		});
 	}).then(result => {
-		return res.status(200).send(result);
+		return target_user.fetch({
+			withRelated: ["roles"]
+		})
+	})
+	.then(user => {
+		return res.status(200).send(user);
 	}).catch(err => {
 		console.error(err);
 		return res.status(500)
