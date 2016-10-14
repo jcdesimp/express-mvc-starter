@@ -8,6 +8,22 @@ The purpose of this repo if to eliminate much of the tyical boilerplate/scoffold
 
 It includes testing utilities via Mocha, test coverage via Istanbul, an ORM via Bookshelf and Knex and many other features that normally require a lot of repetitive configuration.
 
+Usage
+----
+When you first clone this repo there are a few things you'll need to do to get started.
+
+It is assumed that you have NodeJS v6.0+ installed and npm.
+
+First is to run `npm install` to install project dependencies.
+
+You should now be able to run `npm start` and start the project locally. However, you don't have a database yet.
+
+The default development databsae uses SQLite. The app uses knex as a query bulider which also manages migrations. It also uses Bookshelf as an ORM.
+
+Migrations are written in the `migrations/` directory. These migrations can be run with `knex migrate:latest`. If you dont have knex installed globally you can run it from the locally installed node_modules by prepending it with `npm run exec `. So the final command would look like: `npm run exec knex migrate:latest` if you want to create a database with all the latest migrations.
+
+Once this is done you should now have a `databse.sqlite3` file in your project root. This is your project's development database.
+
 Project Structure
 ----
 There are numbers subdirectories within the start kit application structure.
