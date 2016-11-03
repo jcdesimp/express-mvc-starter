@@ -7,7 +7,8 @@
     "test": "mocha",
     "docs": "jsdoc -c ./jsdoc.json -r",
     "coverage": "istanbul cover _mocha",
-    "exec": "exec"
+    "exec": "exec",
+    "migrate": "knex migrate:latest"
   },
   "dependencies": {
     "bcrypt": "^0.8.7",
