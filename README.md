@@ -40,6 +40,8 @@ There are numbers subdirectories within the start kit application structure.
         - This directory contains "middleware" functions. This involves logic that is used between request routing and controller. For example the "validateAuthentication" middleware in the "authentication" file here serves to verify that the request contains a valid JWT token for authentication.
     - routes/
         - the "routes" folder contians the various application routes. The "api.js" file defines all the root level routes that lead to the more domain specific routers. (Typically related to models). For example the "/car" route here passes control to the car router within the "car.js: file. Within the "car.js" file you can see the various sub-routes that map to the various controllers within "controllers/car.js".
+    - services/
+	    - Any application service code (data imports, email sending, etc.) should go here.
     - views/
         - The express configuration in this repo also includes support for EJS (Embedded javaScript) templates. Although this is primarilly a data-only JSON RESTful API, it can still be useful to render full pages for development and administration purposes. Currently there are very basic examples in this directory.
     - index.js
