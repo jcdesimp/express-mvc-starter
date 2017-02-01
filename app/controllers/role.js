@@ -1,4 +1,4 @@
-"use strict"
+"use strict";
 /**
  * @module controllers/user
  */
@@ -12,15 +12,15 @@ const Role = require("../models/role");
  * @param  {Express.Response}  res  - the response object
  * @param  {Function} next - pass to next route handler
  */
-function getRoles(req, res, next) {
-	return Role.fetchAll()
-		.then(collection  =>  res.json(collection.serialize()))
-		.catch(err => {
-			console.error(err);
-			res.status(500).json({
-				error: "UnknownError"
-			});
-		});
+function getRoles(req, res) {
+    return Role.fetchAll()
+        .then(collection  =>  res.json(collection.serialize()))
+        .catch(err => {
+            console.error(err);
+            res.status(500).json({
+                error: "UnknownError"
+            });
+        });
 }
 
 /**
@@ -29,17 +29,17 @@ function getRoles(req, res, next) {
  * @param  {Express.Response}   res  - the response object
  * @param  {Function} next - pass to next route handler
  */
-function createRole(req, res, next) {
-	return Role.forge(req.body)
-		.save().then(role => {
-			return res.json(role.serialize());
-		})
-		.catch(err => {
-			console.error(err);
-			res.status(500).json({
-				error: "UnknownError"
-			});
-		});
+function createRole(req, res) {
+    return Role.forge(req.body)
+        .save().then(role => {
+            return res.json(role.serialize());
+        })
+        .catch(err => {
+            console.error(err);
+            res.status(500).json({
+                error: "UnknownError"
+            });
+        });
 }
 
 /**
@@ -48,17 +48,17 @@ function createRole(req, res, next) {
  * @param  {Express.Response}   res  - the response object
  * @param  {Function} next - pass to the next route handler
  */
-function getRoleUsers(req, res, next) {
-	return Role.forge({id: req.params.id})
-	.fetch({withRelated: 'users'})
-	.then(role => {
-		return res.json(role.related('users'));
-	})
+function getRoleUsers(req, res) {
+    return Role.forge({id: req.params.id})
+    .fetch({withRelated: 'users'})
+    .then(role => {
+        return res.json(role.related('users'));
+    });
 }
 
 
 module.exports = {
-	getRoles,
-	createRole,
-	getRoleUsers
-}
+    getRoles,
+    createRole,
+    getRoleUsers
+};
