@@ -1,8 +1,6 @@
-"use strict"
-
 const knex = require('./db');
 
-let Bookshelf = require('bookshelf')(knex);
+const Bookshelf = require('bookshelf')(knex);
 
 Bookshelf.plugin('registry');
 
