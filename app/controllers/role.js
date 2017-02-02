@@ -1,9 +1,8 @@
-"use strict";
 /**
  * @module controllers/user
  */
 
-const Role = require("../models/role");
+const Role = require('../models/role');
 
 
 /**
@@ -13,14 +12,14 @@ const Role = require("../models/role");
  * @param  {Function} next - pass to next route handler
  */
 function getRoles(req, res) {
-    return Role.fetchAll()
-        .then(collection  =>  res.json(collection.serialize()))
-        .catch(err => {
-            console.error(err);
-            res.status(500).json({
-                error: "UnknownError"
-            });
-        });
+  return Role.fetchAll()
+  .then(collection => res.json(collection.serialize()))
+  .catch(err =>
+    console.error(err),
+    res.status(500).json({
+      error: 'UnknownError',
+    }),
+  );
 }
 
 /**
@@ -30,16 +29,14 @@ function getRoles(req, res) {
  * @param  {Function} next - pass to next route handler
  */
 function createRole(req, res) {
-    return Role.forge(req.body)
-        .save().then(role => {
-            return res.json(role.serialize());
-        })
-        .catch(err => {
-            console.error(err);
-            res.status(500).json({
-                error: "UnknownError"
-            });
-        });
+  return Role.forge(req.body)
+  .save().then(role => res.json(role.serialize()))
+  .catch(err =>
+    console.error(err),
+    res.status(500).json({
+      error: 'UnknownError',
+    }),
+  );
 }
 
 /**
@@ -49,16 +46,14 @@ function createRole(req, res) {
  * @param  {Function} next - pass to the next route handler
  */
 function getRoleUsers(req, res) {
-    return Role.forge({id: req.params.id})
-    .fetch({withRelated: 'users'})
-    .then(role => {
-        return res.json(role.related('users'));
-    });
+  return Role.forge({ id: req.params.id })
+  .fetch({ withRelated: 'users' })
+  .then(role => res.json(role.related('users')));
 }
 
 
 module.exports = {
-    getRoles,
-    createRole,
-    getRoleUsers
+  getRoles,
+  createRole,
+  getRoleUsers,
 };
