@@ -13,7 +13,7 @@ router.get(
 // GET a specific user
 router.get(
   '/:id',
-  authenticationMiddleware.validateAuthentication,	// isAuthenticated middleware
+  authenticationMiddleware.validateAuthentication,  // isAuthenticated middleware
   userController.getUserById,
 );
 // CREATE a new user
@@ -21,7 +21,7 @@ router.post('/', userController.registerNewUser);
 // DELETE a user
 router.delete(
   '/:id',
-  authenticationMiddleware.validateAuthentication,	// isAuthenticated middleware
+  authenticationMiddleware.validateAuthentication,  // isAuthenticated middleware
   userController.deleteUserById,
 );
 router.patch(
