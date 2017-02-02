@@ -29,6 +29,8 @@ node_modules
 # Debug log from npm
 npm-debug.log
 
+### VSCode ###
+.vscode/*
 
 # Created by https://www.gitignore.io/api/webstorm
 
