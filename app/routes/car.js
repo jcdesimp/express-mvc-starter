@@ -1,9 +1,8 @@
-"use strict"
 
 const carController = require('../controllers/car');
-
 const express = require('express');
-let router = express.Router();
+
+const router = express.Router();
 
 // GET a person
 router.get('/', carController.getCars);
