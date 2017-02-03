@@ -1,9 +1,7 @@
-"use strict"
-
 const roleController = require('../controllers/role');
-
 const express = require('express');
-let router = express.Router();
+
+const router = express.Router();
 
 // GET a person
 router.get('/', roleController.getRoles);
