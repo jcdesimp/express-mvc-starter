@@ -20,9 +20,13 @@ You should now be able to run `npm start` and start the project locally. However
 
 The default development databsae uses SQLite. The app uses knex as a query bulider which also manages migrations. It also uses Bookshelf as an ORM.
 
-Migrations are written in the `migrations/` directory. These migrations can be run with `knex migrate:latest`. If you dont have knex installed globally you can run it from the locally installed node_modules by prepending it with `npm run exec `. So the final command would look like: `npm run exec knex migrate:latest` if you want to create a database with all the latest migrations.
+Migrations are written in the `migrations/` directory. These migrations can be run with `npm run migrate`.
 
 Once this is done you should now have a `databse.sqlite3` file in your project root. This is your project's development database.
+
+The default project also expects there to be a `privkey.pem` and `pubkey.pem` in the resources folder. These files make up the public/private keypair used to sign and validate the JSON Web Tokens used in authenticating requests.
+
+You can easily generate these files by running an included script `node ./scripts/generate_jwt_keys.js`. (all this script does is make system calls to openssl, so you'll need that installed.)
 
 Project Structure
 ----
