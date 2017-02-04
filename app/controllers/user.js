@@ -83,13 +83,13 @@ function registerNewUser(req, res) {
       .then(hash => // Create password model
         Password.forge({
           password_hash: hash,
-        }).save({ user_id: model.id }, { transacting: t }),
+        }).save({ user_id: model.id }, { transacting: t })
       )
       .then(() =>  // Create email model
         Email.forge({
           address: req.body.email,
           verified: false,
-        }).save({ user_id: model.id }, { transacting: t }),
+        }).save({ user_id: model.id }, { transacting: t })
       );
     }
 
@@ -110,7 +110,7 @@ function registerNewUser(req, res) {
     res.json({
       id: user.id,
       username: user.username,
-    }),
+    })
   )
   .catch((err) => {
     // username exists
@@ -230,12 +230,12 @@ function setRoles(req, res) {
         promises.push(user.roles().detach(req.body.remove, { transacting: t }));
       }
       return Promise.all(promises);
-    }),
+    })
   )
   .then(() =>
     targetUser.fetch({
       withRelated: ['roles'],
-    }),
+    })
   )
   .then(user => res.status(200).send(user))
   .catch((err) => {

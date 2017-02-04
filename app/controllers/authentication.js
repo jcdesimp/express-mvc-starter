@@ -22,7 +22,7 @@ function login(req, res) {
         }
         return accept(success);
       });
-    }),
+    })
   );
 
   return Promise.all([userDataPromise, checkPasswordPromise])

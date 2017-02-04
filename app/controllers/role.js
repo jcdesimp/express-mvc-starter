@@ -18,7 +18,7 @@ function getRoles(req, res) {
     console.error(err),
     res.status(500).json({
       error: 'UnknownError',
-    }),
+    })
   );
 }
 
@@ -35,7 +35,7 @@ function createRole(req, res) {
     console.error(err),
     res.status(500).json({
       error: 'UnknownError',
-    }),
+    })
   );
 }
 

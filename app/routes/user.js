@@ -8,13 +8,13 @@ const router = express.Router();
 router.get(
   '/',  // route
   authenticationMiddleware.validateAuthentication,  // isAuthenticated middleware
-  userController.getUsers,  // the controller
+  userController.getUsers  // the controller
 );
 // GET a specific user
 router.get(
   '/:id',
   authenticationMiddleware.validateAuthentication,  // isAuthenticated middleware
-  userController.getUserById,
+  userController.getUserById
 );
 // CREATE a new user
 router.post('/', userController.registerNewUser);
@@ -22,12 +22,12 @@ router.post('/', userController.registerNewUser);
 router.delete(
   '/:id',
   authenticationMiddleware.validateAuthentication,  // isAuthenticated middleware
-  userController.deleteUserById,
+  userController.deleteUserById
 );
 router.patch(
   '/:id/roles',
   authenticationMiddleware.validateAuthentication,
-  userController.setRoles,
+  userController.setRoles
 );
 
 module.exports = router;
