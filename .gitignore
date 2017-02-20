@@ -151,3 +151,6 @@ out
 *.sqlite
 
 resources/*.pem
+
+.nyc_output/
+
