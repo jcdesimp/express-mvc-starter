@@ -4,7 +4,9 @@ require('./user');
 
 const Car = bookshelf.model('Car', {
   tableName: 'car',
-  owner: () => this.belongsTo('User', 'owner'),
+  owner() {
+    return this.belongsTo('User', 'owner');
+  },
 });
 
 module.exports = Car;

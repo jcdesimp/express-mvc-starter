@@ -7,10 +7,18 @@ require('./role');
 
 const User = bookshelf.model('User', {
   tableName: 'user',
-  cars: () => this.hasMany('Car', 'owner'),
-  password: () => this.hasOne('Password'),
-  email: () => this.hasOne('Email'),
-  roles: () => this.belongsToMany('Role', 'user_role'),
+  cars() {
+    return this.hasMany('Car', 'owner');
+  },
+  password() {
+    return this.hasOne('Password');
+  },
+  email() {
+    return this.hasOne('Email');
+  },
+  roles() {
+    return this.belongsToMany('Role', 'user_role');
+  },
 });
 
 module.exports = User;
